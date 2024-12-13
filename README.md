@@ -1,70 +1,49 @@
-# Getting Started with Create React App
+# Web Application Overview
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Types of Routing
+- **Client-Side Routing**: Managing routes directly in the browser using JavaScript. This improves user experience by avoiding full-page reloads.
+- **Server-Side Routing**: Routes are handled on the server, and a new page is loaded each time a route changes.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Redux Toolkit Setup
 
-### `npm start`
+1. **Install Dependencies**
+   - Install `@reduxjs/toolkit` and `react-redux` to manage application state.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+2. **Build the Store**
+   - Create a central store to manage application-wide state.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+3. **Connect Store to App**
+   - Use the Redux `Provider` to make the store accessible to all components in the app.
 
-### `npm test`
+4. **Create a Slice**
+   - Define state slices (e.g., cart slice) with reducers and actions for specific functionalities.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+5. **Dispatch Actions**
+   - Update the state by dispatching actions from components.
 
-### `npm run build`
+6. **Selectors**
+   - Retrieve specific parts of the state using selector functions.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+---
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Testing Setup
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+1. **Install Testing Libraries**
+   - Add React Testing Library and Jest for unit and integration testing.
 
-### `npm run eject`
+2. **Install Babel Dependencies**
+   - Add Babel to transpile modern JavaScript and JSX during testing.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+3. **Configure Babel**
+   - Set up Babel presets to ensure compatibility with React and Jest.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Types of Testing
+- **Unit Testing**: Verify the functionality of individual components or functions.
+- **Integration Testing**: Test interactions between multiple modules or components.
+- **End-to-End (E2E) Testing**: Simulate user interactions and test the entire application workflow.
+- Configure Parcle Config File to disable default babel transpilation
+-
