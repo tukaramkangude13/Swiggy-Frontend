@@ -3,12 +3,15 @@ import { useParams } from "react-router-dom";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { MENU_API, MENU_URL } from "../utils/constants";
 import Shimmer from "./shimmer";
-import { addToCart } from "../utils/cartslice";
-import { useDispatch } from "react-redux";
+import { addToCart,removeFromCart } from "../utils/cartslice";
+import { useDispatch, useSelector } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const RestaurentMenu = () => {
-  const { resId } = useParams();
+   const[add ,setadd]=useState(true);
+ const[number,setnumber]=useState(false)
+ const[count ,setcount]=useState(1);
+   const { resId } = useParams();
   const [resInfo, setResInfo] = useState(null);
   const [openSection, setOpenSection] = useState(0);
   const [veg, setVeg] = useState(false);
@@ -17,7 +20,15 @@ const RestaurentMenu = () => {
   const [middle, setMiddle] = useState(false);
   const [message, setMessage] = useState("");
   const [price, setPrice] = useState(0);
+ const cart=useSelector((state)=>state.cart.items)
+ console.log(cart);
+
   const dispatch = useDispatch();
+  const getquentity=(id)=>{
+    const item=cart.find((cartitem)=>cartitem.id==id);
+    return item?item.quantity:0;
+
+  }
 
   useEffect(() => {
     fetchMenu();
@@ -32,9 +43,10 @@ const RestaurentMenu = () => {
       console.error("Error fetching menu:", error);
     }
   };
-
+const handleremove=(menu)=>{
+  dispatch(removeFromCart(menu))
+}
   const handleclick = (menu) => {
-    console.log(menu);
     // setMessage(`${menu.name} added successfully to the cart!`);
     // setPrice(menu.price / 100); // Assuming price is in paise or cents
     dispatch(addToCart(menu)); // Dispatch the specific menu item to the cart
@@ -179,7 +191,8 @@ const RestaurentMenu = () => {
 
             {openSection === index &&
               item.filteredItems.map((menuItem) => (
-                <div key={menuItem.card.info.name} className="mt-5 flex items-start gap-4">
+                <div key={menuItem.card.info.id} className="mt-5 flex items-start gap-4">
+               
                   <img
                     className="w-28 h-28 rounded-lg shadow"
                     src={MENU_URL + menuItem.card.info.imageId}
@@ -200,6 +213,7 @@ const RestaurentMenu = () => {
                       </p>
                     )}
                     <div className="gap-2 flex">
+                    
                       <p className="font-bold text-gray-700 text-sm">
                         ₹{(menuItem.card.info.price || menuItem.card.info.defaultPrice / 100).toFixed(2)}
                       </p>
@@ -209,13 +223,43 @@ const RestaurentMenu = () => {
                         <FontAwesomeIcon icon={faCircle} className="text-red-600" />
                       )}
                     </div>
-                    <button
-                      className="mt-2 px-4 py-2 bg-green-600 text-white text-sm font-semibold rounded-lg shadow-md"
-                      onClick={() => handleclick(menuItem.card.info)}
-                    >
-                      Add to Cart
-                    </button>
+                                {
+                                  <div className="flex items-center space-x-4">
+  {/* If the quantity is 0, show 'Add to Cart' button */}
+  {getquentity(menuItem.card.info.id) === 0 ? (
+    <button
+      onClick={() => handleclick(menuItem.card.info)}
+      className="bg-[#60b246] text-white py-2 px-4 rounded-lg font-semibold transition-all duration-200 hover:bg-[#4a9c3b]"
+    >
+      Add to Cart
+    </button>
+  ) : (
+    <div className="flex items-center justify-between bg-white p-2 rounded-lg shadow-md w-[120px]">
+      {/* Decrement Button */}
+      <button
+        onClick={() => handleremove(menuItem.card.info)}
+        className="text-[#60b246] font-bold text-xl hover:text-[#4a9c3b]"
+      >
+        -
+      </button>
+      
+      {/* Display quantity */}
+      <p className="text-[#60b246] font-bold">{getquentity(menuItem.card.info.id)}</p>
+
+      {/* Increment Button */}
+      <button
+        onClick={() => handleclick(menuItem.card.info)}
+        className="text-[#60b246] font-bold text-xl hover:text-[#4a9c3b]"
+      >
+        +
+      </button>
+    </div>
+  )}
+</div>
+
+                                }
                   </div>
+
                 </div>
               ))}
           </div>
@@ -226,3 +270,27 @@ const RestaurentMenu = () => {
 };
 
 export default RestaurentMenu;
+
+
+
+
+
+
+
+
+// 🌟 **Excited to Share My Latest Project!** 🚀
+
+// I recently completed the frontend of a food ordering platform inspired by Swiggy! 🥡🍔 This project was an amazing opportunity to dive deeper into web development and focus on:
+
+// ✅ **Frontend Development**: Built a responsive and visually appealing user interface using **React.js** and **Tailwind CSS**.  
+// ✅ **Features**:  
+// - Dynamic restaurant listings.  
+// - Search and filtering options.  
+// - Interactive UI elements for a seamless user experience.  
+
+// This project helped me improve my skills in React and Tailwind CSS, and I had a great time exploring creative UI designs. 🎨✨
+
+// I'm excited to share this with the community and would love to hear your thoughts and suggestions! 😊
+
+// #WebDevelopment #FrontendDevelopment #ReactJS #TailwindCSS #FoodOrderingPlatform
+

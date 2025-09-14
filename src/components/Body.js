@@ -17,7 +17,7 @@ const Body = () => {
   const [latitude, setLatitude] = useState(null);
   const [longitude, setLongitude] = useState(null);
   const [isDarkMode, setIsDarkMode] = useState(false);
-
+const [FilteredRes,setfilterres]=useState(null);
   // Dark Mode Toggle
   const toggleDarkMode = () => {
     setIsDarkMode((prevMode) => !prevMode);
@@ -41,6 +41,8 @@ const Body = () => {
   useEffect(() => {
     if (latitude && longitude) {
       fetchMenu(latitude, longitude);
+
+      
     }
   }, [latitude, longitude]);
 
@@ -57,33 +59,23 @@ const Body = () => {
   };
 
   const handleSearch = () => {
-    const filteredRes = mockData?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants.filter(
-      (restaurant) =>
-        restaurant?.info?.name?.toLowerCase().includes(searchText.toLowerCase())
-    );
-    setMockData((prevState) => ({
-      ...prevState,
-      data: {
-        ...prevState?.data,
-        cards: [
-          prevState?.data?.cards[0],
-          {
-            ...prevState?.data?.cards[1],
-            card: {
-              ...prevState?.data?.cards[1].card,
-              card: {
-                ...prevState?.data?.cards[1].card.card,
-                gridElements: {
-                  ...prevState?.data?.cards[1].card.card.gridElements,
-                  infoWithStyle: { restaurants: filteredRes },
-                },
-              },
-            },
-          },
-        ],
-      },
-    }));
+    if (!searchText.trim()) {
+      setfilterres(
+        mockData?.data?.cards?.[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants || []
+      );
+      return;
+    }
+  
+    const filtered =
+      mockData?.data?.cards?.[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants?.filter(
+        (restaurant) =>
+          restaurant?.info?.name?.toLowerCase().includes(searchText.toLowerCase())
+      ) || [];
+    console.log("Filtered Restaurants:", filtered); // Debugging
+    setfilterres(filtered);
   };
+  
+  
 
   const handleTopRated = () => {
     const topRated = mockData?.data?.cards[1]?.card?.card?.gridElements?.infoWithStyle?.restaurants.filter(
@@ -117,7 +109,7 @@ const Body = () => {
 
   return (
     <div
-      className={`body flex flex-col gap-5 -mb-5 ${
+      className={`body flex flex-col -mt-[550px]  gap-5 -mb-5 ${
         isDarkMode ? "bg-gray-900 text-white" : "bg-[#f8f8f8] text-black"
       }`}
     >
@@ -187,33 +179,40 @@ const Body = () => {
       </div>
 
       <div className="brands-section mt-8">
-        <h2 className="font-bold text-2xl text-center text-black dark:text-white">
+        <h2 className="font-bold text-2xl text-center text-black ">
           {mockData?.data?.cards[6]?.card?.card?.title}
+          {console.log(mockData.data.cards[6].card.card)}
         </h2>
-        <div className="flex flex-wrap transition-all duration-1000">
-          {mockData?.data?.cards[6]?.card?.card?.brands?.slice(0, visible).map((x) => (
-            <Footer key={x.id} resData={x} />
-          ))}
-          {visible < mockData?.data?.cards[6]?.card?.card?.brands.length && (
-            <div className="flex justify-center w-full mt-5">
-              <button
-                onClick={() => setVisible(mockData?.data?.cards[6]?.card?.card?.brands.length)}
-                className="bg-[#f0f0f0] w-56 py-2 text-sm text-black font-bold border rounded-lg shadow-md transition-all duration-300 hover:scale-110"
-              >
-                Show More
-                <FontAwesomeIcon icon={faArrowDown} />
-              </button>
-            </div>
-          )}
-          {visible === mockData?.data?.cards[6]?.card?.card?.brands.length && (
-            <div onClick={() => setVisible(9)} className="flex justify-center w-full mt-5">
-              <button className="bg-[#f0f0f0] w-56 py-2 text-sm text-black font-bold border rounded-lg shadow-md transition-all duration-300 hover:scale-110">
-                Show Less
-                <FontAwesomeIcon icon={faArrowUp} />
-              </button>
-            </div>
-          )}
-        </div>
+        <div className="flex flex-wrap gap-4 transition-all duration-1000">
+  {mockData?.data?.cards[6]?.card?.card?.brands
+    ?.slice(0, visible)
+    .map((x) => (
+      <Footer key={x.id} resData={x} visible={visible} />
+    ))}
+  {visible < mockData?.data?.cards[6]?.card?.card?.brands.length && (
+    <div className="flex justify-center w-full mt-5">
+      <button
+        onClick={() =>
+          setVisible(mockData?.data?.cards[6]?.card?.card?.brands.length)
+        }
+        className="bg-[#f0f0f0] w-56 py-2 text-sm text-black font-bold border rounded-lg shadow-md transition-all duration-300 hover:scale-110"
+      >
+        Show More
+        <FontAwesomeIcon icon={faArrowDown} />
+      </button>
+    </div>
+  )}
+  {visible === mockData?.data?.cards[6]?.card?.card?.brands.length && (
+    <div onClick={() => setVisible(9)} className="flex justify-center w-full mt-5">
+      <button className="bg-[#f0f0f0] w-56 py-2 text-sm text-black font-bold border rounded-lg shadow-md transition-all duration-300 hover:scale-110">
+        Show Less
+        <FontAwesomeIcon icon={faArrowUp} />
+      </button>
+    </div>
+  )}
+</div>
+
+
       </div>
     </div>
   );

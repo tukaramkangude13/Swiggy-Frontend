@@ -1,16 +1,20 @@
-import { supabase } from './supabaseClient';
-
 const signUp = async (email, password) => {
   try {
-    const { user, error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
     });
 
-    if (error) throw error;
-
-    console.log('User signed up:', user);
+    if (error) {
+      setErrorMessage("Signup failed: " + error.message);
+      console.error(error.message);
+    } else {
+      setSuccessMessage(
+        "Signup successful! Please check your email to confirm your account."
+      );
+    }
   } catch (error) {
-    console.error('Error during sign-up:', error.message);
+    setErrorMessage("Unexpected error occurred during signup.");
+    console.error(error.message);
   }
 };

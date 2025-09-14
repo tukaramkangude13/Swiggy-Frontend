@@ -9,7 +9,6 @@ import { useSelector } from "react-redux";
 const Header = () => {
   const totalitems = useSelector((state) => state.cart?.items || []); // Redux selector
   const [loginBtn, setLoginBtn] = useState("SignIn");
-  console.log(totalitems)
   const [isMenuOpen, setIsMenuOpen] = useState(false); // Toggle for mobile menu
   const online = useOnlineStatus(); // Online status hook
 
